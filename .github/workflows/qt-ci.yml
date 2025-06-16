@@ -1,4 +1,4 @@
-name: Build Packet_Versions/Packet1/test_0.pro
+name: CI for test_0.pro
 
 on:
   push:
@@ -14,10 +14,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Debug workspace (list files/folders)
+    - name: Show directory structure
       run: |
-        pwd
-        ls -R
+        echo Current Directory: $PWD
+        dir Packet_Versions\Packet1 /s
 
     - name: Install Qt (MinGW)
       uses: jurplel/install-qt-action@v3
@@ -25,24 +25,16 @@ jobs:
         version: '6.8.3'
         arch: 'win64_mingw'
 
-    - name: Add Qt bin directory to PATH
+    - name: Add Qt bin to PATH
       run: echo "C:\Qt\6.8.3\mingw_64\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
 
-    - name: Create build directory
-      run: mkdir Packets_Versions/build
-
-    - name: Build test_0.pro inside Packet_Versions/Packet1
+    - name: Build test_0.pro using qmake + mingw32-make
       run: |
-        cd Packets_Versions/build
-        qmake ../Packet1/test_0.pro
+        cd Packet_Versions\Packet1\build
+        qmake ..\test_0.pro
         mingw32-make
 
     env:
-      pythonLocation: C:\hostedtoolcache\windows\Python\3.11.9\x64
-      PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.11.9\x64/lib/pkgconfig
-      Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
-      Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
-      Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.11.9\x64
       Qt6_DIR: C:\Qt\6.8.3\mingw_64
       QT_PLUGIN_PATH: C:\Qt\6.8.3\mingw_64\plugins
       QML2_IMPORT_PATH: C:\Qt\6.8.3\mingw_64\qml
