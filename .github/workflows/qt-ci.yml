@@ -1,4 +1,4 @@
-name: Build Packets_Versions/build/test_0.pro
+name: Build Packets_Versions/Packet1/test_0.pro
 
 on:
   push:
@@ -31,9 +31,9 @@ jobs:
     - name: Create build directory
       run: mkdir Packets_Versions/build
 
-    - name: Build test_0.pro inside Packets_Versions/build
+    - name: Build test_0.pro inside Packets_Versions/Packet1
       run: |
-        cd Packets_Versions/build
+        cd Packets_Versions/Packet1
         qmake ../Packet1/test_0.pro
         mingw32-make
 
